@@ -2,9 +2,9 @@
 
 Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el curso de Desarrollo de Aplicaciones Móviles.
 
-# Actividad: MVVM
+# MVVM
 
-Actividad práctica sobre el patrón de arquitectura **MVVM (Model-View-ViewModel)**, 
+**MVVM (Model-View-ViewModel)**, 
 usado para separar la interfaz de usuario de la lógica de negocio en apps Android.
 
 **Capas:**
