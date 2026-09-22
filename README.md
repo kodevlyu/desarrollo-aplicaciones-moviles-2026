@@ -2,7 +2,7 @@
 
 Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el curso de Desarrollo de Aplicaciones Móviles.
 
-## 📂 Estructura del repositorio
+# Estructura del repositorio
 
 | Carpeta | Descripción |
 |---|---|
@@ -10,7 +10,7 @@ Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el c
 | `evaluacion-parcial-2/` | |
 | `proyecto-final/` | |
 
-## 📌 Notas
+# Notas
 Este repositorio se actualiza a medida que se avanza en el curso.
 
 ---
