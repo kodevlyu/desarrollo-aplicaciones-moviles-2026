@@ -2,11 +2,22 @@
 
 Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el curso de Desarrollo de Aplicaciones Móviles.
 
+# Actividad: MVVM
+
+Actividad práctica sobre el patrón de arquitectura **MVVM (Model-View-ViewModel)**, 
+usado para separar la interfaz de usuario de la lógica de negocio en apps Android.
+
+**Capas:**
+- View: UI (Activity/Fragment)
+- ViewModel: intermediario entre View y Model
+- Model: Repository + fuentes de datos (local/remota)
+  
 # Estructura del repositorio
 
 | Carpeta | Descripción |
 |---|---|
-| `guia 2.1.2--.../` | |
+| `guia 2.1.2:  Configuración inicial del proyecto móvil con MVVM y herramientas colaborativas /` | |
+| `guia 2.1.4:  Construcción visual de pantalla base con Jetpack Compose /` | |
 | `evaluacion-parcial-2/` | |
 | `proyecto-final/` | |
 
