@@ -14,12 +14,12 @@ usado para separar la interfaz de usuario de la lógica de negocio en apps Andro
   
 # Estructura del repositorio
 
-| Carpeta | Descripción |
-|---|---|
-| `guia 2.1.2:  Configuración inicial del proyecto móvil con MVVM y herramientas colaborativas /` | |
-| `guia 2.1.4:  Construcción visual de pantalla base con Jetpack Compose /` | |
-| `evaluacion-parcial-2/` | |
-| `proyecto-final/` | |
+| Carpeta |
+|---|
+| `guia 2.1.2:  Configuración inicial del proyecto móvil con MVVM y herramientas colaborativas /` |
+| `guia 2.1.4:  Construcción visual de pantalla base con Jetpack Compose /` |
+| `evaluacion-parcial-2/` |
+| `proyecto-final/` |
 
 # Notas
 Este repositorio se actualiza a medida que se avanza en el curso.
