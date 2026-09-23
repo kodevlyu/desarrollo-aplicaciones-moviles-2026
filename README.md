@@ -1,16 +1,6 @@
 # Desarrollo de Aplicaciones Móviles
 
 Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el curso de Desarrollo de Aplicaciones Móviles.
-
-# MVVM
-
-**MVVM (Model-View-ViewModel)**, 
-usado para separar la interfaz de usuario de la lógica de negocio en apps Android.
-
-**Capas:**
-- View: UI (Activity/Fragment)
-- ViewModel: intermediario entre View y Model
-- Model: Repository + fuentes de datos (local/remota)
   
 # Estructura del repositorio
 
