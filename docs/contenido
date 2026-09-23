@@ -1,0 +1,243 @@
+# Guía: MVVM y Jetpack Compose
+
+Documentación de los conceptos usados en este proyecto: la arquitectura **MVVM** y los fundamentos de **Jetpack Compose**.
+
+## Contenido
+
+1. [Arquitectura MVVM](#-arquitectura-mvvm)
+2. [Jetpack Compose](#-jetpack-compose)
+3. [Recursos](#-recursos)
+
+---
+
+# Arquitectura MVVM
+
+**MVVM** (Model - View - ViewModel) separa la app en capas para que el código sea más ordenado, fácil de probar y de mantener.
+
+| Capa | Responsabilidad | En este proyecto |
+|---|---|---|
+| **Model** | Datos y lógica de negocio (clases de datos, repositorios, base de datos, API) | `data class`, `Repository` |
+| **View** | Muestra la interfaz y captura las acciones del usuario | Funciones `@Composable` |
+| **ViewModel** | Guarda el estado de la pantalla y expone acciones a la vista | Clase que extiende `ViewModel` |
+
+## Flujo de datos
+
+```
+┌────────┐   eventos (clics)    ┌───────────┐   pide/guarda datos   ┌───────┐
+│  View  │ ───────────────────► │ ViewModel │ ────────────────────► │ Model │
+│(Compose)│ ◄─────────────────── │           │ ◄──────────────────── │       │
+└────────┘   estado (StateFlow) └───────────┘        datos           └───────┘
+```
+
+La vista **observa** el estado del ViewModel y se redibuja sola cuando cambia. Las acciones del usuario viajan hacia arriba como eventos. A esto se le llama **flujo de datos unidireccional**.
+
+## Ejemplo
+
+**Model**
+
+```kotlin
+data class Tarea(
+    val id: Int,
+    val titulo: String,
+    val completada: Boolean = false
+)
+```
+
+**ViewModel**
+
+```kotlin
+class TareasViewModel : ViewModel() {
+
+    private val _tareas = MutableStateFlow<List<Tarea>>(emptyList())
+    val tareas: StateFlow<List<Tarea>> = _tareas.asStateFlow()
+
+    fun agregar(titulo: String) {
+        _tareas.update { lista ->
+            lista + Tarea(id = lista.size + 1, titulo = titulo)
+        }
+    }
+
+    fun alternarCompletada(id: Int) {
+        _tareas.update { lista ->
+            lista.map { if (it.id == id) it.copy(completada = !it.completada) else it }
+        }
+    }
+}
+```
+
+**View (Compose)**
+
+```kotlin
+@Composable
+fun TareasScreen(viewModel: TareasViewModel = viewModel()) {
+    val tareas by viewModel.tareas.collectAsStateWithLifecycle()
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Button(onClick = { viewModel.agregar("Nueva tarea") }) {
+            Text("Agregar")
+        }
+
+        LazyColumn {
+            items(tareas, key = { it.id }) { tarea ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = tarea.completada,
+                        onCheckedChange = { viewModel.alternarCompletada(tarea.id) }
+                    )
+                    Text(tarea.titulo)
+                }
+            }
+        }
+    }
+}
+```
+
+> La vista no modifica los datos directamente: solo llama a funciones del ViewModel y muestra el estado que recibe.
+
+## Ventajas de usar MVVM
+
+- **Separación de responsabilidades:** la UI no contiene lógica de negocio.
+- **Sobrevive a rotaciones:** el `ViewModel` conserva el estado ante cambios de configuración.
+- **Más fácil de probar:** el ViewModel se puede testear sin interfaz.
+- **Código más limpio:** cada capa tiene un propósito claro.
+
+## Estructura de carpetas sugerida
+
+```
+app/src/main/java/com/ejemplo/miapp/
+├── data/          # Modelos y repositorios (Model)
+│   └── Tarea.kt
+├── ui/
+│   ├── screens/   # Pantallas composables (View)
+│   │   └── TareasScreen.kt
+│   └── theme/     # Colores, tipografía y tema
+└── viewmodel/     # ViewModels
+    └── TareasViewModel.kt
+```
+
+## Dependencias necesarias
+
+```kotlin
+// build.gradle.kts (módulo app)
+implementation("androidx.lifecycle:lifecycle-viewmodel-compose:<version>")
+implementation("androidx.lifecycle:lifecycle-runtime-compose:<version>")
+```
+
+> Reemplaza `<version>` por la última versión estable. Puedes consultarla en la [documentación de Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle).
+
+---
+
+# Jetpack Compose
+
+Jetpack Compose es el toolkit moderno de Android para construir interfaces de forma **declarativa**, usando Kotlin en lugar de XML. En MVVM, Compose es la capa **View**.
+
+##  `@Composable`
+
+Una función anotada con `@Composable` describe una parte de la interfaz. Puede recibir parámetros y llamar a otras funciones composables.
+
+```kotlin
+@Composable
+fun Saludo(nombre: String) {
+    Text(text = "Hola, $nombre")
+}
+```
+
+## 👀 `@Preview`
+
+Permite ver el resultado de un composable en Android Studio sin ejecutar la app en un emulador.
+
+```kotlin
+@Preview(showBackground = true)
+@Composable
+fun SaludoPreview() {
+    Saludo(nombre = "Compose")
+}
+```
+
+## Componentes más usados
+
+| Componente | Descripción |
+|---|---|
+| `Text` | Muestra texto en pantalla |
+| `Button` | Botón con acción al hacer clic |
+| `Image` / `Icon` | Muestra imágenes e íconos |
+| `TextField` | Campo de entrada de texto |
+| `Column` | Organiza elementos verticalmente |
+| `Row` | Organiza elementos horizontalmente |
+| `Box` | Superpone elementos |
+| `LazyColumn` | Lista vertical eficiente (equivalente a `RecyclerView`) |
+| `Card` | Contenedor con elevación y bordes redondeados |
+| `Spacer` | Espacio vacío entre elementos |
+| `Scaffold` | Estructura base de una pantalla |
+
+## `Modifier`
+
+`Modifier` permite aplicar **espaciado, color, tamaño, forma** y más a cualquier composable. Se encadenan con `.` y **el orden importa**.
+
+| Modifier | Función |
+|---|---|
+| `padding()` | Espaciado interno/externo |
+| `size()`, `width()`, `height()` | Tamaño |
+| `fillMaxWidth()`, `fillMaxSize()` | Ocupar el espacio disponible |
+| `background()` | Color de fondo |
+| `clip()` | Recortar con una forma |
+| `border()` | Borde |
+| `clickable {}` | Hacer un elemento clicable |
+
+### Uso de `Modifier` para estilo visual
+
+```kotlin
+Text(
+    text = "Hola Compose",
+    color = Color.White,
+    modifier = Modifier
+        .padding(16.dp)
+        .background(
+            color = Color(0xFF6200EE),
+            shape = RoundedCornerShape(12.dp)
+        )
+        .padding(horizontal = 24.dp, vertical = 12.dp)
+)
+```
+
+> El primer `padding` es espacio **externo** (margen) y el segundo es espacio **interno**, porque el orden de los modifiers cambia el resultado.
+
+## Uso de `Scaffold` como estructura base
+
+`Scaffold` implementa el layout básico de Material Design: barra superior, barra inferior, botón flotante y contenido.
+
+```kotlin
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PantallaPrincipal() {
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Mi App") })
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /* acción */ }) {
+                Icon(Icons.Default.Add, contentDescription = "Agregar")
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            Text("Contenido de la pantalla")
+        }
+    }
+}
+```
+
+> Siempre aplica el `innerPadding` al contenido para que no quede tapado por la barra superior o inferior.
+
+---
+
+# Recursos
+
+- [Documentación oficial de Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Guía de arquitectura de apps Android](https://developer.android.com/topic/architecture)
+- [ViewModel en Compose](https://developer.android.com/topic/libraries/architecture/viewmodel)
+- [Curso Jetpack Compose Basics](https://developer.android.com/courses/jetpack-compose/course)
