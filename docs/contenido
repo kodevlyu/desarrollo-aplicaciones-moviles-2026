@@ -1,4 +1,4 @@
-# Guía: MVVM y Jetpack Compose
+# MVVM y Jetpack Compose
 
 Documentación de los conceptos usados en este proyecto: la arquitectura **MVVM** y los fundamentos de **Jetpack Compose**.
 
@@ -230,14 +230,68 @@ fun PantallaPrincipal() {
     }
 }
 ```
+# Caso: Alerta Temprana por Altas Temperaturas
 
-> Siempre aplica el `innerPadding` al contenido para que no quede tapado por la barra superior o inferior.
+## Identificación del Proyecto
+* **Asignatura:** Desarrollo de Aplicaciones Móviles (DSY1105)
+* **Organización / Cliente:** Empresa de servicios avícola y ganadero (Sector Agroalimentario)
+* **Desafío:** Alerta temprana por altas temperaturas en galpones
+* **Sede / Coordinación:** Sede Melipilla - CITT (Coordinador: Iván Bilbao)
+* **Fecha de Entrega:** 31-08-2026
 
 ---
 
-# Recursos
+## Contexto y Problema
+* **Situación Actual:** El monitoreo ambiental y del comportamiento de las aves se realiza mediante rondas de inspección manuales. La información no está centralizada.
+* **Problema Principal:** Falta de una herramienta móvil centralizada que permita a operarios y supervisores consultar desde terreno y en tiempo real las condiciones de temperatura, humedad, alertas y eventos críticos en los galpones, lo que puede retrasar la toma de decisiones.
+* **Solución Esperada:** Desarrollar una aplicación móvil que centralice la visualización de variables ambientales (temperatura y humedad), identifique estados (normal/advertencia/crítico), emita alertas y permita revisar el historial de eventos para responder oportunamente en terreno.
 
-- [Documentación oficial de Jetpack Compose](https://developer.android.com/jetpack/compose)
-- [Guía de arquitectura de apps Android](https://developer.android.com/topic/architecture)
-- [ViewModel en Compose](https://developer.android.com/topic/libraries/architecture/viewmodel)
-- [Curso Jetpack Compose Basics](https://developer.android.com/courses/jetpack-compose/course)
+---
+
+## Perfiles de Usuario y Funcionalidades Requeridas
+1. **Operarios:**
+   * Consultar el estado de los galpones.
+   * Identificar alertas.
+   * Registrar o confirmar acciones realizadas.
+2. **Supervisores:**
+   * Revisar múltiples galpones.
+   * Consultar eventos críticos e históricos.
+   * Verificar el estado general de las alertas.
+3. **Jefaturas:**
+   * Visualizar información resumida para soporte en el seguimiento y la toma de decisiones.
+
+---
+
+## Datos e Información del Proceso
+La aplicación debe manejar los siguientes datos:
+* Granja y Galpón.
+* Temperatura y Humedad.
+* Fecha y hora de actualización.
+* Estado: *Normal*, *Advertencia* o *Crítico*.
+* Alertas activas.
+* Historial de mediciones.
+* Eventos registrados y acciones realizadas.
+
+---
+
+## Requisitos Técnicos y Restricciones
+* **Plataforma Objetivo:** Android (smartphones).
+* **Conectividad:** Uso en zonas con conectividad limitada o intermitente. Debe soportar **persistencia local** para consultar datos recientes sin conexión.
+* **Notificaciones:** Generación de notificaciones push o locales ante eventos críticos.
+* **Integración API:** Consumo de servicios/API con datos ficticios o simulados (temperatura, humedad, galpones y alertas) para el MVP académico. No requiere integración con sistemas productivos reales.
+* **Capacidades a Demostrar en el MVP:**
+  * Navegación y gestión de estado.
+  * Persistencia de datos local.
+  * Consumo de API REST / Servicios simulados.
+  * Manejo de notificaciones.
+
+---
+
+## Criterios de Éxito
+* Acceso rápido y claro al estado de los galpones desde el dispositivo móvil.
+* Visualización gráfica e intuitiva de condiciones críticas.
+* Recepción oportuna de alertas.
+* Consulta fluida de historiales de medición.
+* Reducción del tiempo de respuesta ante contingencias en terreno.
+
+
