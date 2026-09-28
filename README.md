@@ -7,7 +7,7 @@ Repositorio con las guías, ejercicios y evaluaciones desarrollados durante el c
 | Guía | Estado |
 |---|:---:|
 | `Guia Configuración inicial del proyecto móvil con MVVM y herramientas colaborativas` | [x] Completado |
-| `Guia Construcción visual de pantalla base con Jetpack Compose` | [ ] Completado |
+| `Guia Construcción visual de pantalla base con Jetpack Compose` | [ ] Pendiente |
 | `Guía Adaptabilidad del diseño` | [ ] Pendiente |
 | `Guía Navegación y estructura visual en aplicaciones` | [ ] Pendiente |
 | `Guía Formularios, validaciones y pasado de información` | [ ] Pendiente |
